@@ -3,9 +3,173 @@ import pandas as pd
 import plotly.express as px
 
 # =========================================
+# 🎬 Netflix 테마 CSS 스타일링
+# =========================================
+
+st.markdown("""
+<style>
+    /* 전체 배경을 Netflix 다크 모드로 */
+    .stApp {
+        background-color: #141414;
+    }
+    
+    /* 메인 컨텐츠 영역 */
+    .main .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        background-color: #141414;
+    }
+    
+    /* 제목 스타일 - Netflix 빨간색 */
+    h1 {
+        color: #E50914 !important;
+        font-family: 'Netflix Sans', 'Helvetica Neue', Arial, sans-serif;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    /* 서브 제목 - 밝은 회색 */
+    h2, h3 {
+        color: #FFFFFF !important;
+        font-family: 'Netflix Sans', 'Helvetica Neue', Arial, sans-serif;
+        font-weight: 500;
+    }
+    
+    /* 탭 스타일 */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+        background-color: #1a1a1a;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        background-color: #2a2a2a;
+        color: #ffffff;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-weight: 500;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background-color: #E50914 !important;
+        color: white;
+    }
+    
+    /* 사이드바 스타일 */
+    section[data-testid="stSidebar"] {
+        background-color: #1a1a1a;
+    }
+    
+    section[data-testid="stSidebar"] > div {
+        background-color: #1a1a1a;
+    }
+    
+    /* 사이드바 텍스트 */
+    section[data-testid="stSidebar"] .element-container {
+        color: #ffffff;
+    }
+    
+    /* 데이터프레임 스타일 */
+    .dataframe {
+        background-color: #2a2a2a !important;
+        color: #ffffff !important;
+    }
+    
+    /* 메트릭 카드 스타일 */
+    [data-testid="stMetricValue"] {
+        color: #E50914;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+    
+    [data-testid="stMetricLabel"] {
+        color: #ffffff;
+        font-weight: 500;
+    }
+    
+    /* 일반 텍스트 */
+    p, li, span {
+        color: #d0d0d0 !important;
+    }
+    
+    /* 구분선 */
+    hr {
+        border-color: #E50914;
+        opacity: 0.3;
+    }
+    
+    /* 버튼 스타일 */
+    .stButton>button {
+        background-color: #E50914;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .stButton>button:hover {
+        background-color: #b20710;
+        transform: scale(1.05);
+    }
+    
+    /* 입력 필드 */
+    .stTextInput>div>div>input {
+        background-color: #2a2a2a;
+        color: #ffffff;
+        border: 1px solid #404040;
+    }
+    
+    /* 슬라이더 */
+    .stSlider>div>div>div>div {
+        background-color: #E50914;
+    }
+    
+    /* 멀티셀렉트 */
+    .stMultiSelect>div>div>div {
+        background-color: #2a2a2a;
+        color: #ffffff;
+    }
+    
+    /* Plotly 차트 배경 */
+    .js-plotly-plot {
+        background-color: transparent !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# =========================================
 # 📊 Netflix 데이터 시각화 대시보드
 # =========================================
 # 정답 버전 (app_complete.py)
+
+# Netflix 테마 차트 스타일 함수
+def apply_netflix_theme(fig):
+    """Plotly 차트에 Netflix 다크 테마 적용"""
+    fig.update_layout(
+        plot_bgcolor='#141414',
+        paper_bgcolor='#141414',
+        font=dict(color='#ffffff', family='Arial, sans-serif'),
+        title_font=dict(size=20, color='#E50914', family='Arial, sans-serif'),
+        xaxis=dict(
+            gridcolor='#333333',
+            linecolor='#666666',
+            zerolinecolor='#666666'
+        ),
+        yaxis=dict(
+            gridcolor='#333333',
+            linecolor='#666666',
+            zerolinecolor='#666666'
+        ),
+        hoverlabel=dict(
+            bgcolor="#2a2a2a",
+            font_size=12,
+            font_family="Arial"
+        )
+    )
+    return fig
 
 # TODO 1: 제목 ⭐ - 정답
 st.title("📊 Netflix 데이터 시각화 대시보드")
@@ -110,6 +274,7 @@ with tab1:
         color_discrete_sequence=['#E50914']
     )
     fig.update_layout(showlegend=False)
+    fig = apply_netflix_theme(fig)
     st.plotly_chart(fig, use_container_width=True)
     
     # --------- TODO 5-6: 연대별 막대그래프 ---------
@@ -126,6 +291,7 @@ with tab1:
         labels={'x': '연대', 'y': '콘텐츠 수'},
         color_discrete_sequence=['#E50914']
     )
+    fig = apply_netflix_theme(fig)
     st.plotly_chart(fig, use_container_width=True)
     
     # --------- TODO 13: 상위 N개 국가 분석 ---------
@@ -149,6 +315,7 @@ with tab1:
         labels={'x': '콘텐츠 수', 'y': '국가'},
         color_discrete_sequence=['#E50914']
     )
+    fig = apply_netflix_theme(fig)
     st.plotly_chart(fig, use_container_width=True)
 
 # =========================================
@@ -171,6 +338,7 @@ with tab2:
         title="콘텐츠 유형 비율",
         color_discrete_sequence=['#E50914', '#564d4d']
     )
+    fig = apply_netflix_theme(fig)
     st.plotly_chart(fig, use_container_width=True)
     
     # 통계 정보
